@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <div align="center">
+        <h:form >
+            <p:panel header="${msg['button.add.game']}" >
+
+                <h:panelGrid id="grid" columns="2" cellpadding="5">
+                    <h:outputLabel value="${msg['list.item.title']}" />
+                    <p:inputText id="title" value="#{createItemDescriptionBean.title}" >
+                    </p:inputText>
+
+                    <h:outputText value="${msg['list.item.genre']}" />
+                    <p:selectOneMenu value="${createItemDescriptionBean.genreDTO}" style="width:150px" converter="#{genreConverter}">
+                        <f:selectItems value="${createItemDescriptionBean.genreDToList}" />
+                    </p:selectOneMenu>
+
+                    <h:outputText value="${msg['list.item.pegi']}" />
+                    <p:selectOneMenu value="#{createItemDescriptionBean.pegi}" var="pegi" style="width:150px" panelStyle="width:180px" >
+                        <f:selectItems value="#{createItemDescriptionBean.pegiList}" var="p" itemLabel="#{p.value}" itemValue="#{p}"/>
+                        <p:column style="width:10%">
+                            <h:graphicImage url="../images/#{pegi.toString()}.png" alt="#{pegi.value}"  height="25px"/>
+                        </p:column>
+
+                        <p:column>
+                            <h:outputText value="#{pegi.value}" />
+                        </p:column>
+
+                    </p:selectOneMenu>
+
+                    <h:outputText value="${msg['label.status']}" />
+                    <p:selectOneMenu value="#{createItemDescriptionBean.itemDescriptionStatus}" style="width:150px">
+                        <f:selectItems value="#{createItemDescriptionBean.itemDescriptionStatuses}" />
+                    </p:selectOneMenu>
+
+                    <h:outputText value="${msg['list.item.price']}" />
+                    <p:inputText id="price" value="#{createItemDescriptionBean.price}" converter="#{priceConverter}"></p:inputText>
+
+                </h:panelGrid>
+
+                <p:commandButton value="${msg['button.add.game']}" action="#{createItemDescriptionBean.createItemDescription()}" ajax="false" validateClient="true" style="margin-right:10px"/>
+            </p:panel>
+        </h:form>
+        <h:form >
+            <p:commandButton value="${msg['button.add.genre']}" action="createGenreForm" ajax="false" style="margin-right:10px"/>
+        </h:form>
+    </div>
+</ui:composition>

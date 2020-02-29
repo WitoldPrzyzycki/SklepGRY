@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <style type="text/css">
+        .buttons{
+            height: 100%;
+            width: 100%;
+        }
+        .colbuttons{
+            width: #{empty request.remoteUser ? '33':'25'}%;
+            font-size: 20px;
+        }
+        .topMenu{
+            height: 30%;
+        }
+        .greetings
+        {
+            font-size: 24px;
+            height: 70%
+        }
+        .top {
+            align-content: center;
+            width: 100%;
+            align-content: center;
+            align-items: center;
+            align-self: center;
+    </style>
+    <h:panelGrid columns="1" class="top" cellpadding="5" rowClasses="greetings, topMenu" >
+        <f:subview id="clientView" rendered="#{not empty request.remoteUser}" >
+            <p class="greetings" align="center" >
+                ${msg['label.greetings.part1']}
+                ${request.remoteUser}
+                ${msg['label.greetings.part2']}
+            </p>
+        </f:subview>
+        <f:subview id="clientView1" rendered="#{empty request.remoteUser}" >
+            <p class="greetings" align="center" >
+                ${msg['label.greetings.part1']}
+                ${request.remoteUser}
+                ${msg['label.greetings.part2']}
+            </p>
+        </f:subview>
+        <h:form >
+            <h:panelGrid columns="#{empty request.remoteUser ? '3':'4'}" style="width:100%;" columnClasses="colbuttons,colbuttons,colbuttons,colbuttons">
+                <p:button class="buttons" outcome="main" value="${msg['button.main']}" >
+                </p:button>
+
+                <p:button class="buttons" outcome="employeeItemList" rendered="#{request.isUserInRole('Employee')}" value="${msg['button.positions.list']}" >
+                </p:button>
+
+                <p:button class="buttons" outcome="login" rendered="#{empty request.remoteUser}" value="${msg['button.login']}" >
+                </p:button>
+
+                <p:button class="buttons" outcome="basket" rendered="#{request.isUserInRole('Client')}" value="#{msg['button.basket']} (#{BasketSession.basketSize()})" >
+                </p:button>
+
+                <p:button class="buttons" outcome="orders" rendered="#{request.isUserInRole('Client')}" value="${msg['button.orders.history']}" >
+                </p:button>
+
+                <p:button class="buttons" outcome="register" value="${msg['button.register']}" rendered="#{empty request.remoteUser}" >
+                </p:button>
+
+                <p:button class="buttons" outcome="orders" value="#{msg['button.orders.list']}" rendered="#{request.isUserInRole('Employee')}" >
+                </p:button>
+
+                <p:button class="buttons" outcome="createAccount" value="#{msg['button.create.account']}" rendered="#{request.isUserInRole('Admin')}" >
+                </p:button>
+
+                <p:button class="buttons" outcome="accountList" value="${msg['button.accountList']}" rendered="#{request.isUserInRole('Admin')}" >
+                </p:button>
+
+                <p:commandButton class="buttons" value="#{msg['button.logout']}" rendered="#{not empty request.remoteUser}" action="#{loginBean.invalidateSession()}">
+                </p:commandButton>
+            </h:panelGrid>
+        </h:form>
+    </h:panelGrid>
+</ui:composition>
+
+

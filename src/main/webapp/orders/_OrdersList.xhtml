@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <style type="text/css">
+
+        .login_date {
+            width: 30%;
+            padding-left: 25px;
+        }
+        .status {
+            width: 20%;
+            padding-left: 25px;
+            font-size: 20px;
+        }
+        .price {
+            width: 30%;
+            padding-left: 25px;
+            font-size: 20px;
+        }
+        .actions {
+            width: 20%;
+            
+        }
+
+        .scroller_header{
+            font-size: 20px;
+        }
+
+        .ui-datascroller .ui-datascroller-item {
+            border-bottom: 1px solid #2aa0c7;
+            padding: 25px 10px;
+            /* with the exported variables from Nova and Luna Themes*/
+            border-bottom-color: var(#2aa0c7, #A8A8A8);
+        }
+    </style>
+
+    <h:form id="form">
+
+        <p:dataScroller value="#{OrdersListSession.dataModelOrderDTOs}" var="order" chunkSize="10">
+            <f:facet name="header" class="scroller_header">
+                <h:outputText  class="scroller_header" value="#{msg['list.orders.header']}" ></h:outputText>
+            </f:facet>
+
+            <h:panelGrid columns="1" style="width:100%" >
+                <p:outputPanel >
+                    <h:panelGrid columns="4" cellpadding="5" style="width: 100%" columnClasses="login_date, status, price, actions">
+                        <p:outputPanel >
+                            <h:panelGrid columns="2" cellspacing="10">
+                                <h:outputText value="#{msg['login.label.login']}" style="font-weight: bold;"/>
+                                <h:outputText value="#{order.accountDto.login}" />
+                                <h:outputText value="#{msg['label.placed.date']}" style="font-weight: bold;"/>
+                                <h:outputText value="#{order.placedAtString}" />
+                            </h:panelGrid>
+                        </p:outputPanel>
+                        <p:outputPanel >
+                            <h:panelGrid columns="2">
+                                <h:outputText value="#{msg['label.status']}" style="font-weight: bold;"/>
+                                <h:outputText value="#{order.status.toString()}" />
+                            </h:panelGrid>
+                        </p:outputPanel>
+                        <p:outputPanel >
+                            <h:panelGrid columns="3" >
+                                <h:outputText value="#{msg['label.order.value']}" style="font-weight: bold"/>
+                                <h:outputText value="#{OrdersListSession.getSelectedOrderValue(order)}" converter="#{priceConverter}" style="font-weight: bold"/>
+                                <h:outputText value="#{msg['price.currency']}" style="font-weight: bold"/>
+                            </h:panelGrid>
+                        </p:outputPanel>
+                        <p:outputPanel >
+                            <h:panelGrid columns="2">
+                                <p:commandButton value="#{msg['button.cancel']}" disabled="#{OrdersListSession.isOrderClosed(order)}" style="width:100%" action="#{OrdersListSession.cancelOrder(order)}">
+                                </p:commandButton>
+                                <f:subview id="clientView" rendered="#{request.isUserInRole('Client')}" >
+                                    <h:outputText />
+                                </f:subview>
+                                <f:subview id="emploView" rendered="#{request.isUserInRole('Employee')}" >
+                                    <p:commandButton value="#{msg['button.realize']}" disabled="#{OrdersListSession.isOrderClosed(order)}" action="#{OrdersListSession.realizeOrder(order)}" style="width:100%" >
+                                    </p:commandButton>
+                                </f:subview>
+                            </h:panelGrid>
+                        </p:outputPanel>
+                    </h:panelGrid>
+
+                    <p:dataTable id="orderItemList" var="item" value="#{order.itemDTOs}" >
+
+                        <p:column headerText="#{msg['list.item.title']}" width="50%" >
+                            <h:outputText value="#{item.itemDescriptionDto.title}" />
+                        </p:column>
+
+                        <p:column headerText="#{msg['list.item.genre']}" width="20%">
+                            <h:outputText value="#{item.itemDescriptionDto.genreDTO}" />
+                        </p:column>
+
+                        <p:column headerText="#{msg['list.item.pegi']}" width="5%" >
+                            <div align="center" >
+                            <img src="../images/#{item.itemDescriptionDto.pegi}.png" style="height: 25px" align="middle"/>
+                            </div>
+                        </p:column>
+
+                        <p:column headerText="#{msg['list.item.price']}" width="5%" >
+                            <h:outputText value="#{item.itemDescriptionDto.price}" converter="#{priceConverter}"/>
+                            <h:outputText value="   #{msg['price.currency']}" />
+                        </p:column>
+                        <p:column headerText="#{msg['label.key.value']}" rendered="#{(OrdersListSession.isOrderClosed(order))}" width="30%"  >
+                            <h:outputText value="#{item.keyValue}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:panelGrid>
+        </p:dataScroller>
+    </h:form>
+</ui:composition>

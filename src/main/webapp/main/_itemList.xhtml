@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <style type="text/css">
+        .title_genre {
+            /*height: 75px;*/
+            min-width: 50%;
+            /*column-width: calc;*/
+            padding-left: 10px;
+        }
+        .title {
+            /*height: 75px;*/
+            /*width: 50%;*/
+            /*column-width: calc;*/
+            padding-left: 10px;
+
+        }
+        .genre {
+            /*width: 25%;*/
+            /*column-width: calc;*/
+            padding-left: 10px;
+
+        }
+        .pegi {
+            width: 10%;
+            /*column-width: calc;*/
+            padding-left: 10px;
+            text-align: center;
+
+        }
+        .price {
+            width: 30%;
+            max-width: 25%;
+            min-width: 25%;
+            /*column-width: calc;*/
+            padding-left: 10px;
+            /*text-align: left;*/
+
+        }
+        .price1 {
+            width: 33%;
+            /*column-width: calc;*/
+            padding-left: 10px;
+            text-align: left;
+
+        }
+        .actions {
+            width: 10%;
+            /*column-width: calc;*/
+            padding-left: 10px;
+
+        }
+        .scroller_header{
+            font-size: 20px;
+
+        }
+        .ui-datascroller .ui-datascroller-item {
+            height: 80px;
+            border-bottom: 1px solid #000000;
+            padding: 5px 5px;
+            /*border-bottom-color: gray;*/
+            border-top-color: blue;
+        }
+
+    </style>
+
+    <h:form>
+
+        <p:dataScroller value="#{itemListSession.dataModelItemDescriptionDTOs}" var="items" chunkSize="10" >
+            <f:facet name="header" class="scroller_header">
+                <h:outputText  class="scroller_header" value="#{msg['list.item.header']}" ></h:outputText>
+            </f:facet>
+
+            <h:panelGrid columns="4" style="width:100%; "  cellpadding="5" columnClasses="title_genre, price, pegi, actions">
+                <p:outputPanel >
+                    <h:panelGrid columns="2" cellpadding="5" columnClasses="title, genre" >
+                        <h:outputText value="#{msg['list.item.title']}" style="font-weight: bold;"/>
+                        <h:outputText value="#{items.title}" />
+                        <h:outputText value="#{msg['list.item.genre']}" style="font-weight: bold;"/>
+                        <h:outputText value="#{items.genreDTO}" />
+                    </h:panelGrid>
+                </p:outputPanel>
+                <p:outputPanel style="font-size: 25px; ">
+                    <h:panelGrid columns="3" cellpadding="5" columnClasses="price1, price1, price1">
+                        <h:outputText value="#{msg['list.item.price']}" style="font-weight: bold; "/>
+                        <h:outputText value="#{items.price}" converter="#{priceConverter}"/>
+                        <h:outputText value="#{msg['price.currency']}"  />
+                    </h:panelGrid>
+                </p:outputPanel>
+                <img src="../images/#{items.pegi}.png" style="height: 70px" />
+
+                <p:commandButton value="#{msg['button.add.to.cart']}" rendered="#{not empty request.remoteUser}" disabled="#{request.isUserInRole('Admin') or request.isUserInRole('Employee')}" action="#{itemListSession.addToOrder(items)}" style="width:100%; height: 70px;min-width: 150px;" >
+                </p:commandButton>
+                <p:commandButton value="#{msg['button.add.to.cart']}" rendered="#{empty request.remoteUser}" disabled="#{request.isUserInRole('Admin') or request.isUserInRole('Employee')}" action="login" style="width:100%; height: 70px; min-width: 150px; font-size: 18px" >
+                </p:commandButton>
+
+            </h:panelGrid>
+        </p:dataScroller>
+    </h:form>
+</ui:composition>

@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <div align="center" >
+        <h:form >
+            <p:panel header="${msg['label.create.account']}">
+                <p:selectOneButton value="#{CreateAccountBean.role}" >
+                    <f:selectItem itemLabel="${msg['label.admin']}" itemValue="Admin" />
+                    <f:selectItem itemLabel="${msg['label.employee']}" itemValue="Employee" />
+                </p:selectOneButton>
+
+                <h:panelGrid id="grid" columns="3" cellpadding="5">
+                    <h:outputLabel for="regex" value="${msg['login.label.login']}" style="font-weight:bold"/>
+                    <p:inputText id="regex" value="#{CreateAccountBean.login}" validatorMessage="${msg['login.validator.message']}">
+                        <f:validateRegex pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+                    </p:inputText>
+                    <p:message for="regex" />
+
+                    <h:outputText value="${msg['login.label.password']}" />
+                    <p:password id="doZakładanaKonta" value="#{CreateAccountBean.password}" feedback="true"
+                                promptLabel="${msg['login.label.password.promptLabel']}" 
+                                weakLabel="${msg['login.label.password.weakLabel']}"
+                                goodLabel="${msg['login.label.password.goodLabel']}" 
+                                strongLabel="${msg['login.label.password.strongLabel']}" validatorMessage="${msg['password.validator.message']}">
+                        <f:validateRegex pattern="^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$" />
+                    </p:password>
+                    <p:message for="doZakładanaKonta" />
+
+                    <h:outputText value="${msg['login.label.password']}" style="font-weight:bold"/>
+                    <p:password id="passwordInputForm" value="#{CreateAccountBean.passwordConfirmation}" />
+                    <p:message for="passwordInputForm"  />
+
+                </h:panelGrid>
+
+                <p:commandButton value="${msg['button.register']}" action="#{CreateAccountBean.register()}" ajax="false" validateClient="true" style="margin-right:10px"/>
+            </p:panel>
+        </h:form>
+    </div>
+</ui:composition>

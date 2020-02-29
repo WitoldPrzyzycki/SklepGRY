@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:panelGrid columns="1" style="width:100%; " >
+
+        <h:form>
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <f:subview id="clientView" rendered="#{request.isUserInRole('Employee')}" >
+                        <p:inputText placeholder="#{msg['login.label.login']}" value="#{OrdersListSearchBean.loginSearch}"/>
+                    </f:subview>
+                    <p:selectOneMenu value="#{OrdersListSearchBean.statusSearch}" style="width:150px">
+                        <f:selectItem itemLabel="#{msg['label.choose.status']}" itemValue="" noSelectionOption="true" />
+                        <f:selectItems value="#{OrdersListSearchBean.statusList}" />
+                    </p:selectOneMenu>
+                    <p:datePicker  placeholder="Wybierz date" value="#{OrdersListSearchBean.fromDateSearch}" />
+                    <p:datePicker  placeholder="Wybierz date" value="#{OrdersListSearchBean.toDateSearch}" />
+                    <p:commandButton value="#{msg['button.search']}" action="${OrdersListSearchBean.findUserOrdersByConditions()}" /> 
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+
+                </div>
+            </div>
+        </h:form>
+    </h:panelGrid>
+</ui:composition>

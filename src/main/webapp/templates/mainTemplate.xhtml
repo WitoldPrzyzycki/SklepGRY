@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" >
+
+    <h:body>
+        <h:head>
+            <title>${msg['web.title']}</title>
+        </h:head>
+        <p:layout fullPage="true">
+            <p:layoutUnit position="north" size="100" resizable="false" style="min-height: 150px">
+                <ui:insert  name="top">Top</ui:insert>
+            </p:layoutUnit>
+            <p:layoutUnit position="south" size="50" resizable="false" style="min-height: 50x;height: 50px">
+                <ui:insert name="bottom">Bottom</ui:insert>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="west" size="100" resizable="false" style="min-width: 294px;">
+                <h:form >
+                    <f:subview id="xdx" rendered="#{!OrdersListSearchBean.isThisOrdersListPath() and !request.isUserInRole('Admin')}" >
+                        <ui:param name="pageBean" value="#{itemListSearchBean}" />
+                    </f:subview>
+                    <f:subview id="xdx1" rendered="#{OrdersListSearchBean.isThisOrdersListPath() and !request.isUserInRole('Admin')}" >
+                        <ui:param name="pageBean" value="#{OrdersListSearchBean}" />
+                    </f:subview>
+                    <f:subview id="xdx2" rendered="#{request.isUserInRole('Admin')}" >
+                        <ui:param name="pageBean" value="#{OrdersListSearchBean}" />
+                    </f:subview>
+                    
+
+                    <ui:insert name="left">Left</ui:insert>
+                    <div align="center">
+                        <p:commandButton value="#{msg['button.search']}" rendered="#{!OrdersListSearchBean.isThisOrdersListPath() and !itemListSearchBean.isThisEmployeeItemListPath() and !request.isUserInRole('Admin')}" action="${itemListSearchBean.findActiveIdsByConditions()}"/>
+                        <p:commandButton value="#{msg['button.search']}" rendered="#{itemListSearchBean.isThisEmployeeItemListPath() and request.isUserInRole('Employee')}" action="#{itemListSearchBean.findEmployeeIdsByConditions()}" />
+                        <p:commandButton value="#{msg['button.search']}" rendered="#{OrdersListSearchBean.isThisOrdersListPath() and !request.isUserInRole('Admin')}" action="#{OrdersListSearchBean.findOrdersByConditions()}" />
+                        <p:commandButton value="#{msg['button.search']}" action="${AccountListSearchBean.findByConditions()}" rendered="#{request.isUserInRole('Admin')}" /> 
+                    </div>
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center" size="100" resizable="false" >
+                <ui:insert name="center">Center</ui:insert>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</html>
+

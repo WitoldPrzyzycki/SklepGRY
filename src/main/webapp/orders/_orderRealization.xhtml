@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <style type="text/css">
+
+        .login_date {
+            width: 30%;
+            padding-left: 25px;
+
+        }
+        .status {
+            width: 20%;
+
+            font-size: 20px;
+        }
+        .price {
+            width: 30%;
+            padding-left: 25px;
+            font-size: 20px;
+        }
+        .actions {
+            width: 20%;
+
+        }
+
+        .header{
+            font-size: 20px;
+        }
+
+
+    </style>
+    <h:form >
+        <p:panelGrid columns="4" style="width: 100%;"  layout="grid" columnClasses="login_date, status, price, actions">
+            <f:facet name="header" class="header">
+                <h:outputText  class="header" value="#{msg['label.order.realization']}" ></h:outputText>
+            </f:facet>
+            <p:outputPanel >
+                <h:panelGrid columns="2" cellspacing="10" >
+                    <h:outputText value="#{msg['login.label.login']}" />
+                    <h:outputText value="#{OrdersListSession.inRealizationOrder.accountDto.login}" />
+                    <h:outputText value="#{msg['label.placed.date']}" />
+                    <h:outputText value="#{OrdersListSession.inRealizationOrder.placedAtString}" />
+                </h:panelGrid>
+            </p:outputPanel>
+            <p:outputPanel >
+                <h:panelGrid columns="2" cellpadding="20%">
+                    <h:outputText value="#{msg['label.status']}" />
+                    <h:outputText value="#{OrdersListSession.inRealizationOrder.status.toString()}" />
+                </h:panelGrid>
+            </p:outputPanel>
+            <p:outputPanel >
+                <h:panelGrid columns="3" cellpadding="20%">
+                    <h:outputText value="#{msg['label.order.value']}" style="font-weight: bold" />
+                    <h:outputText value="#{OrdersListSession.getSelectedOrderValue(OrdersListSession.inRealizationOrder)}" converter="#{priceConverter}" style="font-weight: bold"/>
+                    <h:outputText value="#{msg['price.currency']}" style="font-weight: bold"/>
+                </h:panelGrid>
+            </p:outputPanel>
+            <p:outputPanel >
+                <h:panelGrid columns="1" width="100%" cellpadding="15%">
+                    <p:commandButton value="#{msg['button.realize']}" action="#{OrdersListSession.confirmOrderRealization()}" style="width: 100%; ">  
+                    </p:commandButton>
+                </h:panelGrid>
+            </p:outputPanel>
+        </p:panelGrid>
+        <p:dataTable var="item" value="#{OrdersListSession.inRealizationOrder.itemDTOs}">
+            <p:column headerText="#{msg['list.item.title']}" width="50%">
+                <h:outputText value="#{item.itemDescriptionDto.title}" />
+            </p:column>
+
+            <p:column headerText="#{msg['label.key.value']}" width="45%">
+                <h:outputText value="#{item.keyValue}" />
+            </p:column>
+
+            <p:column headerText="#{msg['list.item.price']}" width="5%">
+                <h:outputText value="#{item.itemDescriptionDto.price}" converter="#{priceConverter}" />
+                <h:outputText value="  #{msg['price.currency']}" />
+            </p:column>
+
+        </p:dataTable>
+
+    </h:form>
+</ui:composition>

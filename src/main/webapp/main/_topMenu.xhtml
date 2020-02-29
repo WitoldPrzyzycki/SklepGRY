@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <style type="text/css">
+        .top {
+            align-content: center;
+            width: 100%;
+            align-content: center;
+            align-items: center;
+            align-self: center;
+
+        }
+        .szukaj{
+            width: 100%;
+            border-style: none;
+            align-content: center;
+            align-items: center;
+            align-self: center;
+
+        }
+        .messages{
+            height: 15px;
+        }
+        .search_form{
+            width: 100%;
+        }
+        .title_search{
+            width: 100%;
+        }
+        .genre_search{
+            width: 100%;
+        }
+        .pegi_search{
+            width: 100%;
+        }
+        .status_search{
+            width: 100%;
+        }
+        .price_min{
+            width: 100%;
+        }
+        .price_max{
+            width: 100%;
+        }
+    </style>
+    <h:panelGrid columns="1" class="top" rowClasses="messages, search_form">
+        <p:messages>
+            <p:autoUpdate />
+        </p:messages>
+        <h:panelGrid columns="6" style="width: 100%" class="szukaj" columnClasses="title_search, genre_search, pegi_search,status_search, price_min, price_max">
+            <p:inputText placeholder="#{msg['list.item.title']}" value="#{pageBean.titleSearch}"/>        
+            <p:selectOneMenu value="#{pageBean.genreDtoSearch}" style="width:150px" converter="#{genreConverter}">
+                <f:selectItem itemLabel="#{msg['label.choose.genre']}"  noSelectionOption="true" />
+                <f:selectItems value="#{pageBean.genreDtoList}" />
+            </p:selectOneMenu>  
+            <p:selectOneMenu value="#{pageBean.pegiSearch}" style="width:150px"  >
+                <f:selectItem itemLabel="#{msg['label.choose.max.pegi']}" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{pageBean.pegiList}" />
+            </p:selectOneMenu>
+            <p:selectOneMenu value="#{pageBean.statusSearch}" rendered="#{request.isUserInRole('Employee')}" style="width:150px">
+                <f:selectItem itemLabel="#{msg['label.choose.status']}" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{pageBean.statusList}" />
+            </p:selectOneMenu>
+            <p:inputNumber  placeholder="#{msg['label.price.min']}" value="#{pageBean.minPriceSearch}" converter="#{priceConverter}"/> 
+            <p:inputNumber  placeholder="#{msg['label.price.max']}" value="#{pageBean.maxPriceSearch}" converter="#{priceConverter}"/> 
+        </h:panelGrid>
+    </h:panelGrid>
+</ui:composition>

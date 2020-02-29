@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <p:panel header="${msg['button.login']}" >
+    <div align="center">
+        <h:form id="form" >
+
+            <p:messages  for="username"/>
+            <p:messages  for="password"/>
+
+            <h:panelGrid columns="2">
+                <h:outputLabel value="${msg['login.label.login']}" />
+                <p:inputText id="username" value="#{loginController.username}"/>
+
+                <h:outputLabel value="${msg['login.label.password']}" />
+                <p:password id="password" value="#{loginController.password}"/>
+                <f:facet name="footer">
+                    <div align="center"><p:commandButton value="${msg['button.login']}" type="submit" action="#{loginController.login()}" />
+                    </div>
+                </f:facet>
+            </h:panelGrid>
+        </h:form>
+    </div>
+</p:panel>
+</ui:composition>

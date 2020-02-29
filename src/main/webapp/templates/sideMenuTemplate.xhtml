@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form>
+        <h:panelGrid columns="1" style="width:100%; " >
+            <f:subview id="clientView" rendered="#{not empty request.remoteUser}" >
+                ${msg['label.greetings.part1']}<br />
+                ${request.remoteUser}<br/>
+                ${msg['label.greetings.part2']}<br />
+            </f:subview>
+            <p:button outcome="main" value="${msg['button.main']}" style="width:100%">
+            </p:button>
+
+            <p:button outcome="employeeItemList" rendered="#{request.isUserInRole('Employee')}" value="${msg['button.positions.list']}" style="width:100%">
+            </p:button>
+
+            <p:button outcome="login" rendered="#{empty request.remoteUser}" value="${msg['button.login']}" style="width:100%">
+            </p:button>
+
+            <p:button outcome="basket" rendered="#{request.isUserInRole('Client')}" value="#{msg['button.basket']} (#{BasketSession.basketSize()})" style="width:100%">
+            </p:button>
+
+            <p:button outcome="orders" rendered="#{request.isUserInRole('Client')}" value="${msg['button.orders.history']}" style="width:100%">
+            </p:button>
+
+            <p:button outcome="register" value="${msg['button.register']}" rendered="#{empty request.remoteUser}" style="width:100%">
+            </p:button>
+
+            <p:button outcome="orders" value="#{msg['button.orders.list']}" rendered="#{request.isUserInRole('Employee')}" style="width:100%">
+            </p:button>
+
+            <p:button outcome="createAccount" value="#{msg['button.create.account']}" rendered="#{request.isUserInRole('Admin')}" style="width:100%">
+            </p:button>
+
+            <p:button outcome="accountList" value="${msg['button.accountList']}" rendered="#{request.isUserInRole('Admin')}" style="width:100%">
+            </p:button>
+
+            <p:commandButton value="#{msg['button.logout']}" rendered="#{not empty request.remoteUser}" style="width:100%" action="#{loginBean.invalidateSession()}">
+            </p:commandButton>
+
+        </h:panelGrid>
+    </h:form>
+</ui:composition>
+
+

@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/mainTemplate.xhtml">
+
+    <ui:define name="top">
+
+        <ui:include src="../templates/_topMenuTemplate.xhtml" />
+
+    </ui:define>
+
+    <ui:define name="left">
+        <ui:param name="pageBean" value="#{itemListSearchBean}" />
+        <ui:include src="../templates/sideMenuTemplate.xhtml" />
+    </ui:define>
+
+    <ui:define name="center">
+        <div>
+            <center>#{msg["error.page.message"]}</center>
+        </div>
+    </ui:define>
+    <ui:define name="bottom">
+        <ui:include src="../templates/_bottom.xhtml" />
+    </ui:define>
+</ui:composition>
+

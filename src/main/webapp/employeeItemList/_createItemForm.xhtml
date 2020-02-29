@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:panel header="${msg['button.add.item']}">
+        <div align="center" >
+            <h:form >
+
+                <h:panelGrid id="grid" columns="2" cellpadding="5" >
+                    <p:outputLabel value="${msg['label.adding.item.for']}" />
+                    <p:outputLabel value="${createItemBean.itemDescriptionDTO.title}" />
+                    <h:outputLabel value="${msg['label.key.value']}" />
+                    <p:inputText id="keyValue" value="#{createItemBean.keyValue}" size="40">
+                    </p:inputText>
+
+                    <h:outputText value="${msg['label.status']}" />
+                    <p:selectOneMenu value="#{createItemBean.itemStatus}" style="width:150px">
+                        <f:selectItems value="#{createItemBean.itemStatusList}" />
+                    </p:selectOneMenu>
+                </h:panelGrid>
+
+                <p:commandButton value="${msg['button.add']}" action="#{createItemBean.createItem()}" ajax="false" validateClient="true" style="margin-right:10px"/>
+            </h:form>
+        </div>
+    </p:panel>
+
+</ui:composition>

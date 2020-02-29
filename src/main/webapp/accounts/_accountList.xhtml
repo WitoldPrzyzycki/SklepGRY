@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <style type="text/css">
+        .login {
+            width: 40%;
+            /*column-width: calc;*/
+            padding-left: 10px;
+
+        }
+        .role {
+            width: 20%;
+            /*column-width: calc;*/
+            padding-left: 10px;
+
+        }
+        .status {
+            width: 20%;
+            /*column-width: calc;*/
+            padding-left: 10px;
+
+        }
+        .actions {
+            width: 20%;
+            /*column-width: calc;*/
+            padding-left: 10px;
+
+        }
+        .scroller_header{
+            font-size: 20px;
+
+        }
+
+
+
+        .ui-datascroller .ui-datascroller-item {
+            border-bottom: 1px solid #2aa0c7;
+            padding: 25px 10px;
+            /* with the exported variables from Nova and Luna Themes*/
+            border-bottom-color: var(#2aa0c7, #A8A8A8);
+        }
+    </style>
+
+    <h:form> 
+        <p:dataScroller value="#{AccountListSession.dataModelAccountDTOs}" var="account" chunkSize="10" >
+            <f:facet name="header">
+                <h:outputText  class="scroller_header" value="#{msg['list.account.header']}" ></h:outputText>
+            </f:facet>
+
+            <h:panelGrid columns="4" style="width:100%;font-size: 20px" cellpadding="5" columnClasses="login, role, status, actions" >
+                <p:outputPanel >
+                    <h:panelGrid columns="2" cellpadding="5" >
+                        <h:outputText value="#{msg['login.label.login']}" style="font-weight: bold;"/>
+                        <h:outputText value="#{account.login}" />
+                    </h:panelGrid>
+                </p:outputPanel>
+                <p:outputPanel >
+                    <h:panelGrid columns="2" cellpadding="5" >
+                        <h:outputText value="#{msg['login.label.role']}" style="font-weight: bold"/>
+                        <h:outputText value="#{account.role}" />
+                    </h:panelGrid>
+                </p:outputPanel>
+                <p:outputPanel >
+                    <h:panelGrid columns="2" cellpadding="5" >
+                        <h:outputText value="#{msg['label.status']}" style="font-weight: bold"/>
+                        <h:outputText value="#{account.status.toString()}" />
+                    </h:panelGrid>
+                </p:outputPanel>
+                <p:outputPanel >
+                    <h:panelGrid columns="2" cellpadding="5" >
+                        <f:subview id="aktywuj" rendered="#{!AccountListSession.isAccountActive(account)}">
+                            <p:commandButton value="#{msg['button.activate']}" disabled="#{AccountListSession.isThisMyAccount(account)}" action="#{AccountListSession.activateAccount(account)}" style="width:100%" >
+                            </p:commandButton>
+                        </f:subview>
+                        <f:subview id="dezaktywuj"  rendered="#{AccountListSession.isAccountActive(account)}" >
+                            <p:commandButton value="#{msg['button.deactivate']}" disabled="#{AccountListSession.isThisMyAccount(account)}" action="#{AccountListSession.deactivateAccount(account)}" style="width:100%" >
+                            </p:commandButton>
+                        </f:subview>
+                        <p:commandButton value="#{msg['button.delete']}" disabled="#{AccountListSession.isThisMyAccount(account)}" action="#{AccountListSession.deleteAccount(account)}" style="width:100%" >
+                        </p:commandButton>
+                    </h:panelGrid>
+                </p:outputPanel>
+            </h:panelGrid>
+        </p:dataScroller>
+    </h:form>
+</ui:composition>

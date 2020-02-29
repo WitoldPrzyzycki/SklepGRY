@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <style type="text/css">
+        .szukaj{
+            /*width: 226px;*/
+            border-style: none;
+        }
+        .login{
+            width: 100%;
+        }
+        .status{
+           
+        }
+        .date_from{
+            width: 150px;
+            font-size: 15px;
+        }
+        .date_to{
+            width: 150px;
+        }
+        .kol{
+            width: 100%;
+        }
+    </style>
+    <h:panelGrid columns="1" cellspacing="10" class="szukaj" style="width: 100%" columnClasses="kol" rowClasses="#{request.isUserInRole('Employee')? 'login,':''} status, date_from,date_to">
+        <p:inputText placeholder="#{msg['login.label.login']}" rendered="#{request.isUserInRole('Employee')}" value="#{pageBean.loginSearch}"/>
+        <p:datePicker  class="date_from" placeholder="#{msg['label.datepicker.from']}" value="#{pageBean.fromDateSearch}"  />
+        <p:datePicker  class="date_to" placeholder="#{msg['label.datepicker.to']}" value="#{pageBean.toDateSearch}" />
+        <p:selectOneMenu value="#{pageBean.orderStatusSearch}"  style="width:150px">
+            <f:selectItem itemLabel="#{msg['label.choose.status']}" noSelectionOption="true" />
+            <f:selectItems value="#{pageBean.orderStatusList}" />
+        </p:selectOneMenu>
+    </h:panelGrid>
+</ui:composition>

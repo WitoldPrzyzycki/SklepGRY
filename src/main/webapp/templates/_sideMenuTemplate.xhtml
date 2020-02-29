@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <style type="text/css">
+
+        .szukaj{
+            width: 100%;
+
+
+        }
+        .title_search{
+            width: 100%;
+        }
+        .genre_search{
+            width: 100%;
+        }
+        .pegi_search{
+            width: 100%;
+        }
+        .status_search{
+            width: 100%;
+        }
+        .price_min{
+            width: 100%;
+        }
+        .price_max{
+            width: 100%;
+        }
+    </style>
+    <f:subview id="xdt" rendered="#{!request.isUserInRole('Admin')}" >
+        <h:panelGrid columns="1" style="width: 100%" class="szukaj" cellspacing="10" rowClasses="title_search, genre_search, pegi_search,status_search, price_min, price_max">
+            <f:facet name="header" class="side_menu_header">
+                <h:outputText  class="side_menu_header" value="#{msg['sidemenu.header']}" ></h:outputText>
+            </f:facet>
+            <p:inputText placeholder="#{msg['list.item.title']}" value="#{pageBean.titleSearch}" />        
+            <p:selectOneMenu value="#{pageBean.genreDtoSearch}" style="width:150px" converter="#{genreConverter}" >
+                <f:selectItem itemLabel="#{msg['label.choose.genre']}"  noSelectionOption="true" />
+                <f:selectItems value="#{pageBean.genreDtoList}" />
+            </p:selectOneMenu>  
+            <p:selectOneMenu value="#{pageBean.pegiSearch}" var="pegi" style="width:150px" panelStyle="width:180px" >
+                <f:selectItem itemLabel="#{msg['label.choose.max.pegi']}"  noSelectionOption="true" />
+                <f:selectItems value="#{pageBean.pegiList}" var="p" itemLabel="#{p.value}" itemValue="#{p}"/>
+                <p:column style="width:10%">
+                    <h:graphicImage url="../images/#{pegi.toString()}.png" alt="#{pegi.value}"  height="25px"/>
+                </p:column>
+
+                <p:column>
+                    <h:outputText value="#{pegi.value}" />
+                </p:column>
+
+            </p:selectOneMenu>
+            <p:selectOneMenu value="#{pageBean.statusSearch}" rendered="#{itemListSearchBean.isThisEmployeeItemListPath()}" style="width:150px">
+                <f:selectItem itemLabel="#{msg['label.choose.status']}" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{pageBean.statusList}" />
+            </p:selectOneMenu>
+            <p:inputNumber  placeholder="#{msg['label.price.min']}" value="#{pageBean.minPriceSearch}" converter="#{priceConverter}"/> 
+            <p:inputNumber  placeholder="#{msg['label.price.max']}" value="#{pageBean.maxPriceSearch}" converter="#{priceConverter}"/> 
+        </h:panelGrid>
+    </f:subview>
+    <f:subview id="xdt1" rendered="#{request.isUserInRole('Admin')}" >
+        <h:panelGrid columns="1" style="width:100%; " >
+            <f:facet name="header" class="side_menu_header">
+                <h:outputText  class="side_menu_header" value="#{msg['sidemenu.header']}" ></h:outputText>
+            </f:facet>
+            <p:inputText placeholder="#{msg['login.label.login']}" value="#{AccountListSearchBean.loginSearch}"/>        
+            <p:selectOneMenu value="#{AccountListSearchBean.roleSearch}" style="width:150px">
+                <f:selectItem itemLabel="#{msg['label.choose.role']}" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{AccountListSearchBean.roleList}" />
+            </p:selectOneMenu>
+            <p:selectOneMenu value="#{AccountListSearchBean.statusSearch}" style="width:150px">
+                <f:selectItem itemLabel="#{msg['label.choose.status']}" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{AccountListSearchBean.statusList}" />
+            </p:selectOneMenu>
+
+        </h:panelGrid>
+    </f:subview>
+</ui:composition>

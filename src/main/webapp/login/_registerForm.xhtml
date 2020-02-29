@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form >
+        <p:panel header="${msg['button.register']}" >
+            <div align="center">
+                    <p:message for="login" />
+                    <p:message for="doZakładanaKonta" />
+                    <p:message for="passwordInputForm"  />
+                <h:panelGrid id="grid" columns="2" cellpadding="5">
+                    <h:outputLabel for="login" value="${msg['login.label.login']}" style="font-weight:bold"/>
+                    <p:inputText id="login" value="#{registerBean.login}" validatorMessage="${msg['login.validator.message']}">
+                        <f:validateRegex pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+                    </p:inputText>
+
+                    <h:outputText value="${msg['login.label.password']}" />
+                    <p:password id="doZakładanaKonta" value="#{registerBean.password}" feedback="true"
+                                promptLabel="${msg['login.label.password.promptLabel']}" 
+                                weakLabel="${msg['login.label.password.weakLabel']}"
+                                goodLabel="${msg['login.label.password.goodLabel']}" 
+                                strongLabel="${msg['login.label.password.strongLabel']}" validatorMessage="${msg['password.validator.message']}">
+                        <f:validateRegex pattern="^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$" />
+                    </p:password>
+
+                    <h:outputText value="${msg['login.label.password']}" style="font-weight:bold"/>
+                    <p:password id="passwordInputForm" value="#{registerBean.passwordConfirmation}" />
+
+                </h:panelGrid>
+
+                <p:commandButton value="${msg['button.register']}" action="#{registerBean.register()}" ajax="false" validateClient="true" style="margin-right:10px"/>
+            </div>
+        </p:panel>
+    </h:form>
+
+</ui:composition>
